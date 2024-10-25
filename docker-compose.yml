@@ -4,6 +4,7 @@ services:
   backoffice-app-web-service:
     build:
       context: backoffice-service
+    container_name: backoffice-app-web-service
     volumes:
       - "./backoffice-service:/data/app"
     working_dir: "/data/app"
@@ -34,6 +35,7 @@ services:
   backoffice-app-projections:
     build:
       context: backoffice-service
+    container_name: backoffice-app-projections
     volumes:
       - "./backoffice-service:/data/app"
     working_dir: "/data/app"
@@ -64,6 +66,7 @@ services:
   backoffice-distributed-consumer:
     build:
       context: backoffice-service
+    container_name: backoffice-distributed-consumer
     volumes:
       - "./backoffice-service:/data/app"
     working_dir: "/data/app"
@@ -93,6 +96,7 @@ services:
     command: "/data/app/bin/console ecotone:run backoffice_service -vvv"
   backoffice-app-database:
     image: postgres:12.1
+    container_name: backoffice-app-database
     networks:
       - default
     ports:
@@ -103,6 +107,7 @@ services:
   customer-app-web-service:
     build:
       context: customer-service
+    container_name: customer-app-web-service
     volumes:
       - "./customer-service:/data/app"
     working_dir: "/data/app"
@@ -131,6 +136,7 @@ services:
   customer-distributed-consumer:
     build:
       context: customer-service
+    container_name: customer-distributed-consumer
     volumes:
       - "./customer-service:/data/app"
     working_dir: "/data/app"
@@ -155,6 +161,7 @@ services:
   customer-notifications-consumer:
     build:
       context: customer-service
+    container_name: customer-notifications-consumer
     volumes:
       - "./customer-service:/data/app"
     working_dir: "/data/app"
@@ -178,6 +185,7 @@ services:
       - rabbitmq
   customer-app-database:
     image: 'mysql/mysql-server:8.0'
+    container_name: customer-app-database
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: customer_app
@@ -189,12 +197,14 @@ services:
       - default
   mailhog:
     image: 'mailhog/mailhog'
+    container_name: mailhog
     networks:
       - default
     ports:
       - "3004:8025"
   rabbitmq:
     image: rabbitmq:3.8-management-alpine
+    container_name: rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
@@ -204,6 +214,7 @@ services:
       - "3005:15672"
   pulse:
     image: ecotoneframework/ecotone-pulse:0.1.0
+    container_name: pulse
     working_dir: "/data/app"
     networks:
       - default
@@ -214,6 +225,7 @@ services:
       - 3006:80
   jaeger:
     image: jaegertracing/all-in-one:latest
+    container_name: jaeger
     environment:
       COLLECTOR_OTLP_ENABLED: "true"
     networks:
